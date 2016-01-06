@@ -8,7 +8,7 @@ from hutoma import EasyHutoma, HutomaException
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-USER_KEY = '???'  # use a valid user key
+USER_KEY = ''  # use a valid user key
 
 
 class EasyHutomaTest(unittest.TestCase):

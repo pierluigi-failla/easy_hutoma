@@ -44,6 +44,11 @@ class EasyHutoma(object):
         :param user_key: is your api key
         :param base_url: is the main api url
         """
+        if not user_key:
+            raise HutomaException(
+                    message='user_key: {0} is not a valid user_key'.format(user_key),
+                    sender='__init__'
+            )
         self._user_key = user_key
         self._base_url = base_url
         self._api_calls = 0  # count how many api calls for this session

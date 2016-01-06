@@ -1,1 +1,1 @@
-USER_KEY = '???'  # use a valid user key
+USER_KEY = ''  # use a valid user key
