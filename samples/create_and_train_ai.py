@@ -3,12 +3,11 @@
 import logging
 import time
 
+from config import USER_KEY
 from hutoma import EasyHutoma
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
-
-USER_KEY = '???'  # use a valid user key
 
 SOURCE_FILE = '../data/source.txt'
 TARGET_FILE = '../data/target.txt'

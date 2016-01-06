@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
+import datetime
 import logging
 
-import datetime
+from config import USER_KEY
 from hutoma import EasyHutoma
 from hutoma.audio import RecordAudio, PlayAudio
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
-
-USER_KEY = '???'  # use a valid user key
 
 # Limitation apply based on your Hutoma Pricing plan
 
