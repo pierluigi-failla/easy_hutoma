@@ -48,7 +48,7 @@ def main():
         if response.get('trainingStatus ', -1) < 3:
             print 'Training ended...'
             break
-        time.sleep(SLEEEP_SECS)
+        time.sleep(args.sleep)
 
     print 'API calls: {0}'.format(hutoma.api_calls_count())
 
