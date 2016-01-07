@@ -1,22 +1,39 @@
 # -*- coding: utf-8 -*-
-
+import argparse
 import logging
 import time
 
-from config import USER_KEY
 from hutoma import EasyHutoma
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
 
-SOURCE_FILE = '../data/source.txt'
-TARGET_FILE = '../data/target.txt'
 
-SLEEEP_SECS = 1*60
+def add_args():
+    parser = argparse.ArgumentParser(description='Create and train AI')
+    parser.add_argument('--user_key',
+                        help='provide your Hutoma API user key')
+    parser.add_argument('--source_file',
+                        default='../data/source.txt',
+                        help='the source training file (default=%(default)r)')
+    parser.add_argument('--target_file',
+                        default='../data/target.txt',
+                        help='the target training file (default=%(default)r)')
+    parser.add_argument('--sleep',
+                        default=60,
+                        help='seconds to wait in check status loop (default=%(default)r)')
+    args = parser.parse_args()
+    return args
 
 
 def main():
-    hutoma = EasyHutoma(USER_KEY)
+    args = add_args()
+
+    hutoma = EasyHutoma(args.user_key)
+
+    input = raw_input('Attention! this will delete all existing AIs (type "quit" to exit): ')
+    if 'quit' in input:
+        return
 
     # get the list of available AIs
     ais = hutoma.list_ai()
@@ -32,19 +49,24 @@ def main():
     print 'AI id: {0}'.format(aiid)
 
     print 'Upload data files...'
-    hutoma.training_upload_files(aiid, SOURCE_FILE, TARGET_FILE)
+    hutoma.training_upload_files(aiid, args.source_file, args.target_file)
 
-    print 'Training monitor (check every {0} secs):'.format(SLEEEP_SECS)
+    print 'Training monitor (check every {0} secs):'.format(args.sleep)
 
     print 'Start training...'
     start_time = time.time()
     response, _ = hutoma.training_start(aiid)
-    print '\n\tStatus: {trainingStatusDetails:s}\n\tRuntime status: {runtimeStatusDetails:s}\n\tScore: {score:s}'.format(**response)
+    print '\tStatus: {trainingStatusDetails:s}\n\tRuntime status: {runtimeStatusDetails:s}'.format(**response)
+    print '\tScore: {score:s}'.format(**response)
+    print '\tAIid: {0}'.format(aiid)
 
     while response.get('trainingStatus ', -1) < 3:
-        time.sleep(SLEEEP_SECS)
+        time.sleep(args.sleep)
         response, _ = hutoma.current_status(aiid)
-        print '\n\tStatus: {trainingStatusDetails:s}\n\tRuntime status: {runtimeStatusDetails:s}\n\tScore: {score:s}'.format(**response)
+        print
+        print '\n\tStatus: {trainingStatusDetails:s}\n\tRuntime status: {runtimeStatusDetails:s}'.format(**response)
+        print '\tScore: {score:s}'.format(**response)
+        print '\tAIid: {0}'.format(aiid)
     print '{0} secs to train'.format(int(time.time() - start_time))
 
     print 'API calls: {0}'.format(hutoma.api_calls_count())
