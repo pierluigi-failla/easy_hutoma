@@ -6,5 +6,6 @@ Point here for a detailed documentation of the APIs: https://hutoma.3scale.net/d
 
 ## Running Samples and Tests
 
-To run Samples and Test you need just to update `USER_KEY` with your own one (go here to create one: https://hutoma.3scale.net/).
-You need to update your `USER_KEY` in both `samples\config.py` and `test/hutoma_test.py`.
+You can create your own `USER_KEY` here https://hutoma.3scale.net/ you need it to interact with Hutoma APIs.
+
+To running the tests you need to update your `USER_KEY` in `test/hutoma_test.py`.
