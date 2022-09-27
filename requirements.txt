@@ -1,2 +1,2 @@
 PyAudio == 0.2.9
-Requests == 2.9.1
+Requests == 2.20.0
